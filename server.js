@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const chatController = require("./controllers/chatController");
-const youtubeController = require("./controllers/youtubeController");
+// const youtubeController = require("./controllers/youtubeController");
 
 const port = 3000;
 const app = express();
@@ -21,20 +21,26 @@ app.get("/", (req, res) => {
 // app.get("/yt", youtubeController.search);
 
 // talks to chat and makes roadmap if needed
-// app.post(
-//   "/:id",
-//   chatController.userInput,
-//   chatController.chat,
-//   chatController.proccessFunctionCall,
-//   chatController.chatResponse
-// );
 
-app.post("/:id", (req, res) => {
-  const data = JSON.parse(
-    fs.readFileSync(`${__dirname}/data/tmp-response.json`)
-  );
-  res.status(200).json(data);
-});
+let id = 0;
+app.post(
+  "/",
+  (req, res, next) => {
+    req.params.id = id;
+    id++, next();
+  },
+  chatController.userInput,
+  chatController.chat,
+  chatController.proccessFunctionCall,
+  chatController.chatResponse
+);
+
+// app.post("/:id", (req, res) => {
+//   const data = JSON.parse(
+//     fs.readFileSync(`${__dirname}/data/tmp-response.json`)
+//   );
+//   res.status(200).json(data);
+// });
 
 app.get("/get_data", chatController.getConversations);
 app.listen(port, () => console.log(`App listening in port: ${port}`));

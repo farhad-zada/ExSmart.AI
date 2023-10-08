@@ -22,7 +22,7 @@ document
       ul.scrollTop = ul.scrollHeight;
 
       // TODO:
-      fetch("http://127.0.0.1:3000/1", {
+      fetch("http://127.0.0.1:3000/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ function processFunctionCallCreateRoadmap(functionCall) {
         step.youtube_embedding
           .map(
             (embd) =>
-              `<div class="iframe-box"><iframe width="200" height="150" src="${embd}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`
+              `<div class="iframe-box"><iframe width="200" height="100" src="${embd}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`
           )
           .join("") +
         "</div>"
