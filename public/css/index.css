@@ -1,0 +1,104 @@
+body, html {
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    padding-top: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Nunito, sans-serif;
+  }
+  div {
+    width: 100%; /* Set div width to full viewport width */
+    max-width: 100%; /* Set a maximum width for the content */
+    height: 100%; /* Set div height to full viewport height */
+    display: inline-flex;
+    flex-direction: column; /* Align items in a column */
+    justify-content: end; /* Align items to top and bottom */
+    align-items: center;
+    text-align: center;
+    background-color: #455a64; /* Blue Grey color */
+
+  }
+  textarea {
+    width: 80%; /* Match the width to the parent container */
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    resize: horizontal; /* Prevents resizing */
+  }
+  ul {
+    list-style-type: none; /* Remove default bullet points */
+    width: 85%;
+    max-height: 100%; /* Set a maximum height for the list */
+    overflow-y: scroll; /* Add a vertical scrollbar if content overflows */
+    scrollbar-width: none; /* Hide the scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide the scrollbar in Internet Explorer and Edge */
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: solid #333; */
+  }
+  ul::-webkit-scrollbar {
+    width: 0; /* Hide the scrollbar in WebKit browsers */
+    display: none; /* Hide the scrollbar in Chrome and Safari */
+  }
+  li {
+    /* flex-grow: 1; Allow each li to grow to fill the available space */
+    width: 100%;
+    max-width: 100%;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  li:nth-child(odd) {
+    background-color: #cacaca; /* Alternate background color */
+  }
+  li:nth-child(even) {
+    background-color: #ffffff; /* Alternate background color */
+  }
+  li p {
+    font-size: 18px;
+    font-family: 'Ubuntu', sans-serif;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+  li span {
+    font-size: 16px;
+    color: #777;
+  }
+
+  .iframe-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
+
+  .iframe-container .iframe-box {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin: 20px;
+      width: calc(30% - 20px);
+  }
+/* 
+  .iframe-box iframe {
+      width: (30% - 10px);
+      height: 150px;
+      border: 1px solid #455a64;
+  } */
