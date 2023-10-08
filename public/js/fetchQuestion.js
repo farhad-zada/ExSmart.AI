@@ -22,7 +22,7 @@ document
       ul.scrollTop = ul.scrollHeight;
 
       // TODO:
-      fetch("http://http://159.89.109.212:3000/", {
+      fetch("http://159.89.109.212:3000/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
