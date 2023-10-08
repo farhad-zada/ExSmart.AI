@@ -16,7 +16,7 @@ exports.search = async (query) => {
 
     return response;
   } catch (err) {
-    console.log(err);
+    console.log(err.message, url);
     return undefined;
   }
 };

@@ -68,7 +68,7 @@ exports.chat = async (req, res, next) => {
           "Something went very wrong! Please contact farhad.szd@gmail.com",
       });
     }
-    conversations[id].push(req.response.choices[0].message);
+    conversations[id].push({ ...req.response.choices[0].message });
     next();
   } catch (error) {
     console.log(error);
@@ -97,11 +97,16 @@ exports.proccessFunctionCall = async (req, res, next) => {
     )
   );
 
-  youtubeEmbeddings = searchResults.map((rslt) =>
-    rslt.data.items.map((item) => {
-      return `https://www.youtube.com/embed/${item.id.videoId}`;
-    })
-  );
+  youtubeEmbeddings = searchResults.map((rslt) => {
+    try {
+      return rslt.data.items.map((item) => {
+        return `https://www.youtube.com/embed/${item.id.videoId}`;
+      });
+    } catch (error) {
+      return [];
+      console.log(error);
+    }
+  });
 
   arguments.steps.map(
     (step, i) => (arguments.steps[i].youtube_embedding = youtubeEmbeddings[i])

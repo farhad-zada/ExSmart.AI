@@ -16,13 +16,13 @@ document
       ul.appendChild(liUserInput);
 
       const liLoadingIndicator = document.createElement("li");
-      liLoadingIndicator.innerHTML = "Typing... 🕊️";
+      liLoadingIndicator.innerHTML = `<p class="loading">Typing... 🕊️</p>`;
       ul.appendChild(liLoadingIndicator);
 
       ul.scrollTop = ul.scrollHeight;
 
       // TODO:
-      fetch("http://159.89.109.212:3000/", {
+      fetch("http://127.0.0.1:3000/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,9 +41,9 @@ document
             throw Error("No response found from server!");
           }
 
-          if (data.message) {
-            responseHTML = `<p>${data.message.content}</p>
-            <span>${data.message.role}</span>`;
+          if (data.content) {
+            console.log(data.content);
+            responseHTML = `<p>${data.content}</p>`;
           }
           if (data.function_call !== undefined) {
             responseHTML += processFunctionCallCreateRoadmap(
@@ -51,7 +51,7 @@ document
             );
           }
 
-          liAssistan.innerHTML = responseHTML;
+          liAssistan.innerHTML = responseHTML + `<span>${data.role}</span>`;
 
           ul.appendChild(liAssistan);
         })

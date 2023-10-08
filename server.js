@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const chatController = require("./controllers/chatController");
-// const youtubeController = require("./controllers/youtubeController");
+const youtubeController = require("./controllers/youtubeController");
 
 const port = 3000;
 const app = express();
@@ -13,7 +13,10 @@ app.set("view engine", "pug");
 
 app.use(express.json());
 
+let id = 0;
+
 app.get("/", (req, res) => {
+  id++;
   res.status(200).render("index");
 });
 
@@ -22,12 +25,12 @@ app.get("/", (req, res) => {
 
 // talks to chat and makes roadmap if needed
 
-let id = 0;
 app.post(
   "/",
   (req, res, next) => {
     req.params.id = id;
-    id++, next();
+    console.log(id);
+    next();
   },
   chatController.userInput,
   chatController.chat,
