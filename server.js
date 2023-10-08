@@ -20,6 +20,16 @@ app.get("/", (req, res) => {
   res.status(200).render("index");
 });
 
+app.get("/", (req, res) => {
+  id++;
+  res.status(200).render("index");
+});
+
+app.get("/test", (req, res) => {
+  id++;
+  res.status(200).render("index-2");
+});
+
 // made to test youtube endpoint
 // app.get("/yt", youtubeController.search);
 
@@ -38,6 +48,11 @@ app.post(
   chatController.chatResponse
 );
 
+app.post("/test", (req, res) => {
+  res
+    .status(200)
+    .json(JSON.parse(fs.readFileSync(`${__dirname}/data/tmp-response.json`)));
+});
 // app.post("/:id", (req, res) => {
 //   const data = JSON.parse(
 //     fs.readFileSync(`${__dirname}/data/tmp-response.json`)
