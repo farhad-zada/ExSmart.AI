@@ -1,0 +1,17 @@
+@media screen and (max-width: 320px) {
+    .asistanText {
+        max-width: 70%;
+    }
+
+    .userText {
+        max-width: 70%;
+
+    }
+
+    .textArea {
+        max-width: 90%;
+    }
+    .iframe-container{
+        grid-template-columns: repeat(2,1fr);
+    }
+}

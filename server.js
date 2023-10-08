@@ -2,32 +2,54 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const chatController = require("./controllers/chatController");
-const youtubeController = require("./controllers/youtubeController");
+// const youtubeController = require("./controllers/youtubeController");
+const cookieParser = require("cookie-parser");
+const { default: helmet } = require("helmet");
+const { default: rateLimit } = require("express-rate-limit");
+const cors = require("cors");
+require("dotenv").config();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
-app.set("views", path.join(__dirname, "public/views"));
+app.set("views", path.join(__dirname, "public", "views"));
 app.set("view engine", "pug");
 
 app.use(express.json());
+
+app.use(cookieParser());
+
+const limiter = rateLimit({
+  windowMs: 3 * 60 * 60 * 1000,
+  limit: 100,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+});
+
+// app.use(helmet());
+
+app.use(limiter);
+
+app.use(cors());
+
+app.options("*", cors());
 
 let id = 0;
 
 app.get("/", (req, res) => {
   id++;
-  res.status(200).render("index");
-});
-
-app.get("/", (req, res) => {
-  id++;
+  res.cookie("id", `${id}`, {
+    maxAge: 60 * 60 * 24 * 30,
+    httpOnly: true,
+    secure: false,
+  });
   res.status(200).render("index");
 });
 
 app.get("/test", (req, res) => {
   id++;
-  res.status(200).render("index-2");
+  res.render("index", { id: 12 });
 });
 
 // made to test youtube endpoint
@@ -37,11 +59,6 @@ app.get("/test", (req, res) => {
 
 app.post(
   "/",
-  (req, res, next) => {
-    req.params.id = id;
-    console.log(id);
-    next();
-  },
   chatController.userInput,
   chatController.chat,
   chatController.proccessFunctionCall,
@@ -53,6 +70,7 @@ app.post("/test", (req, res) => {
     .status(200)
     .json(JSON.parse(fs.readFileSync(`${__dirname}/data/tmp-response.json`)));
 });
+
 // app.post("/:id", (req, res) => {
 //   const data = JSON.parse(
 //     fs.readFileSync(`${__dirname}/data/tmp-response.json`)

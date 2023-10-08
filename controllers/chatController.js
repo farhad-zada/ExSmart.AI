@@ -32,7 +32,7 @@ async function chat(messages) {
 
 // checks if there is a user input and converts it into GPT message
 exports.userInput = async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.cookies.id;
 
   if (!id) {
     return res.status(400).json({
@@ -57,7 +57,7 @@ exports.userInput = async (req, res, next) => {
 
 // handles chatting with GPT
 exports.chat = async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.cookies.id;
 
   try {
     console.log("waiting for chat...");
@@ -118,7 +118,7 @@ exports.proccessFunctionCall = async (req, res, next) => {
 
 // sends a response back
 exports.chatResponse = async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.cookies.id;
   conversations[id].push(req.response.choices[0].message);
 
   res.status(200).json(req.response.choices[0].message);
