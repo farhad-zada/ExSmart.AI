@@ -4,11 +4,10 @@ const fs = require("fs");
 const chatController = require("./controllers/chatController");
 // const youtubeController = require("./controllers/youtubeController");
 const cookieParser = require("cookie-parser");
-const { default: helmet } = require("helmet");
+// const { default: helmet } = require("helmet");
 const { default: rateLimit } = require("express-rate-limit");
 const cors = require("cors");
 require("dotenv").config();
-const favicon = require("serve-favicon");
 
 const port = process.env.PORT || 3000;
 const app = express();
