@@ -8,11 +8,13 @@ const { default: helmet } = require("helmet");
 const { default: rateLimit } = require("express-rate-limit");
 const cors = require("cors");
 require("dotenv").config();
+const favicon = require("serve-favicon");
 
 const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
+
 app.set("views", path.join(__dirname, "public", "views"));
 app.set("view engine", "pug");
 

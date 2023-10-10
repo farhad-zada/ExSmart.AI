@@ -13,7 +13,7 @@ document
       <div class="userText">
        <p>${userInput}</p>
        <div
-        <span>user</span>
+        <span>You ✨</span>
        </div> 
       </div>
         `;
@@ -26,8 +26,8 @@ document
 
       ul.scrollTop = ul.scrollHeight;
 
-      // const url = "http://159.89.109.212:80";
-      const url = "http://127.0.0.1:80/";
+      const url = "/";
+      // const url = "http://127.0.0.1:80/";
 
       fetch(url, {
         method: "POST",
@@ -63,7 +63,7 @@ document
           }
 
           liAssistanText.innerHTML =
-            responseHTML + `<div><span>${data.role}</span></div>`;
+            responseHTML + `<div><span>Tars 🤓</span></div>`;
 
           ul.appendChild(liAssistan);
         })
