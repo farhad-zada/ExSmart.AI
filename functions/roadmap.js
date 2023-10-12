@@ -6,6 +6,10 @@ module.exports = () => {
     parameters: {
       type: "object",
       properties: {
+        language: {
+          type: "string",
+          description: "An ISO 639-1 two-letter language code",
+        },
         steps: {
           type: "array",
           items: {

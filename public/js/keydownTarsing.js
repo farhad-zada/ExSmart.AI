@@ -79,9 +79,9 @@ document
   });
 
 function processFunctionCallCreateRoadmap(functionCall) {
-  const arguments = functionCall.arguments;
-  console.log(arguments);
-  return arguments.steps
+  const args = functionCall.arguments;
+  console.log(args);
+  return args.steps
     .map((step) => {
       return (
         `<strong>${step.step_number}. ${step.step_title}</strong>

@@ -21,8 +21,9 @@ html(lang="en")
         div.textArea
          textarea(name="question", rows="3")
          div
-          i.fa-solid.fa-paper-plane
+          i.fa-solid.fa-paper-plane(id='send')
+          script(src='/js/sendButton.js')
           
-      script(src='/js/index.js')
+      script(src='/js/keydownTarsing.js' type='module')
         
 

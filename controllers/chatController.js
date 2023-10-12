@@ -1,6 +1,7 @@
 const { OpenAI } = require("openai");
 require("dotenv").config();
 const youtubeController = require("./youtubeController");
+const _ = require("lodash");
 
 const systemPrompt = `You are a happy assistant whose name is Chatty that puts a positive spin on everything. 
 You are a good and helpful assistant. Make stept-by-step comprehensive roadmaps for users when needed. Use 
@@ -61,14 +62,15 @@ exports.chat = async (req, res, next) => {
 
   try {
     console.log("waiting for chat...");
-    req.response = await chat(conversations[id]);
-    if (!req.response) {
+    const response = await chat(conversations[id]);
+    if (!response) {
       return res.status(500).json({
         message:
           "Something went very wrong! Please contact farhad.szd@gmail.com",
       });
     }
-    conversations[id].push({ ...req.response.choices[0].message });
+    conversations[id].push(response.choices[0].message);
+    req.message = _.cloneDeep(response.choices[0].message);
     next();
   } catch (error) {
     console.log(error);
@@ -80,14 +82,12 @@ exports.chat = async (req, res, next) => {
 
 // processes function_call if exists
 exports.proccessFunctionCall = async (req, res, next) => {
-  if (!req.response.choices[0].message.function_call) {
+  if (!req.message.function_call) {
     return next();
   }
   console.log("processing function call");
 
-  const arguments = JSON.parse(
-    req.response.choices[0].message.function_call.arguments
-  );
+  const arguments = JSON.parse(req.message.function_call.arguments);
 
   console.log("searching youtube...");
 
@@ -103,25 +103,22 @@ exports.proccessFunctionCall = async (req, res, next) => {
         return `https://www.youtube.com/embed/${item.id.videoId}`;
       });
     } catch (error) {
-      return [];
       console.log(error);
+      return [];
     }
   });
 
   arguments.steps.map(
     (step, i) => (arguments.steps[i].youtube_embedding = youtubeEmbeddings[i])
   );
-  req.response.choices[0].message.function_call.arguments = arguments;
+  req.message.function_call.arguments = arguments;
 
   next();
 };
 
 // sends a response back
 exports.chatResponse = async (req, res, next) => {
-  const id = req.cookies.id;
-  conversations[id].push(req.response.choices[0].message);
-
-  res.status(200).json(req.response.choices[0].message);
+  res.status(200).json(req.message);
   console.log("response sent succesfully");
 };
 
@@ -134,10 +131,3 @@ exports.getConversations = async (req, res) => {
     },
   });
 };
-
-// testing youtbe
-// exports.ytTest = async (req, res, next) => {
-//   const query = req.body.userInput;
-//   await processCreateRoadmap(query);
-//   res.json({ role: "server", content: "Testing..." });
-// };
