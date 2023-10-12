@@ -2,9 +2,6 @@ const { OpenAI } = require("openai");
 require("dotenv").config();
 const youtubeController = require("./youtubeController");
 const _ = require("lodash");
-const bcrypt = require("bcrypt");
-
-const password = "$2b$10$xZgn.yZiqj4QfffAH6/E2eDpmVSJIiKzhhYNFTnw7w6lwiw582pOG";
 
 const systemPrompt = `You are a happy assistant whose name is Chatty that puts a positive spin on everything. 
 You are a good and helpful assistant. Make stept-by-step comprehensive roadmaps for users when needed. Use 
@@ -127,12 +124,6 @@ exports.chatResponse = async (req, res, next) => {
 
 // returns conversations as whole
 exports.getConversations = async (req, res) => {
-  const pass = req.body.password;
-
-  if (!pass) return res.status(400).json({ message: "error" });
-  if (!(await bcrypt.compare(pass, password)))
-    return res.status(403).json({ message: "error" });
-  pass = undefined;
   res.status(200).json({
     status: "success",
     data: {
