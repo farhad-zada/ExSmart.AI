@@ -93,7 +93,7 @@ exports.proccessFunctionCall = async (req, res, next) => {
 
   const searchResults = await Promise.all(
     arguments.steps.map((step) =>
-      youtubeController.search(step.youtube_search_string)
+      youtubeController.search(step.youtube_search_string, arguments.language)
     )
   );
 
