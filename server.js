@@ -48,16 +48,6 @@ app.get("/", (req, res) => {
   res.status(200).render("index");
 });
 
-app.get("/test", (req, res) => {
-  id++;
-  res.render("index", { id: 12 });
-});
-
-// made to test youtube endpoint
-// app.get("/yt", youtubeController.search);
-
-// talks to chat and makes roadmap if needed
-
 app.post(
   "/",
   chatController.userInput,
@@ -66,19 +56,6 @@ app.post(
   chatController.chatResponse
 );
 
-app.post("/test", (req, res) => {
-  res
-    .status(200)
-    .json(JSON.parse(fs.readFileSync(`${__dirname}/data/tmp-response.json`)));
-});
-
-// app.post("/:id", (req, res) => {
-//   const data = JSON.parse(
-//     fs.readFileSync(`${__dirname}/data/tmp-response.json`)
-//   );
-//   res.status(200).json(data);
-// });
-
-app.get("/get_data", chatController.getConversations);
+app.post("/get_data", chatController.getConversations);
 
 app.listen(port, () => console.log(`App listening in port: ${port}`));
