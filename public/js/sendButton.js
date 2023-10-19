@@ -52,7 +52,7 @@ document.getElementById("send").addEventListener("click", (event) => {
 
       if (data.content) {
         console.log(data.content);
-        responseHTML = `<p>${data.content}</p>`;
+        responseHTML = `<pre>${data.content}</pre>`;
       }
       if (data.function_call !== undefined) {
         responseHTML += processFunctionCallCreateRoadmap(data.function_call);

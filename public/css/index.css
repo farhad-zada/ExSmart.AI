@@ -24,7 +24,7 @@
   } */
 
 body {
-  background: #484848;
+  background: rgb(26, 26, 26);
   padding: 80px 0 40px 0;
   height: 100vh;
   min-height: 600px;
@@ -72,11 +72,13 @@ li {
 }
 
 .asistanText {
-  max-width: 40%;
-  background: #d9d9d9;
+  width: max-content;
+  max-width: 90%;
+  background: rgb(239, 239, 239);
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .asistanText div,
@@ -88,6 +90,7 @@ li {
   line-height: 25px;
   text-align: right;
   margin-top: 4px;
+  white-space: pre-wrap;
 }
 
 .user {
@@ -97,9 +100,11 @@ li {
 .userText {
   min-width: 10%;
   max-width: 40%;
-  background: #d9d9d9;
+  background: rgb(127, 53, 191);
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 20px;
+  color: #fff;
+
 }
 
 .textArea {
@@ -107,7 +112,8 @@ li {
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: #d9d9d9;
+  background: rgb(50, 49, 49);
+  /* background-color: #d9d9d9; */
   border-radius: 12px;
   overflow: hidden;
   position: fixed;
@@ -128,7 +134,10 @@ li {
   overflow-y: hidden;
   padding: 18px;
   padding-right: 48px;
-  background-color: #d9d9d9;
+  background: rgb(50, 49, 49);
+color: #fff;
+  
+  /* background-color: #d9d9d9; */
 }
 
 .textArea i {
@@ -153,13 +162,15 @@ li {
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+pre {
+  white-space: pre-wrap;
+}
 ul {
   margin-bottom: 45px;
   overflow: auto;
 }
 .iframe-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, max-content);
   gap: 10px;
 }
