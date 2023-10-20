@@ -3,17 +3,27 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Document
+    title Tars
+    //- link(rel="icon" type="image/x-icon" href="../images/favicon.ico")
     link(rel='stylesheet' type='text/css' href='/css/index.css')
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css", integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==", crossorigin="anonymous", referrerpolicy="no-referrer")
+
       
   body
-    div 
+    div.container 
       ul 
-        li
+        li.asistan
+         div.asistanText
           p  Hi! How can I help you today? ✨
-          span assistant
+          div 
+            span Tars 🤓
       form(id="tarsing" method='post' style="width: 100%;") 
-        textarea(name="question", rows="3")
-      script(src='/js/fetchQuestion.js')
+        div.textArea
+         textarea(name="question", rows="3")
+         div
+          i.fa-solid.fa-paper-plane(id='send')
+          script(src='/js/sendButton.js')
+          
+      script(src='/js/keydownTarsing.js' type='module')
         
 

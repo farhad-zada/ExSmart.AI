@@ -5,8 +5,8 @@ require("dotenv").config();
 const ytKey = process.env.YT_KEY;
 const ytURL = "https://www.googleapis.com/youtube/v3";
 
-exports.search = async (query) => {
-  const url = `${ytURL}/search?type=video&q=${query}`;
+exports.search = async (query, language) => {
+  const url = `${ytURL}/search?type=video&q=${query}&relevanceLanguage=${language}`;
   const params = { key: ytKey };
 
   try {

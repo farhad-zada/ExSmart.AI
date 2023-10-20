@@ -6,6 +6,11 @@ module.exports = () => {
     parameters: {
       type: "object",
       properties: {
+        language: {
+          type: "string",
+          description:
+            "This is an ISO 639-1 two-letter language code, used to specify the language.",
+        },
         steps: {
           type: "array",
           items: {
@@ -34,7 +39,7 @@ module.exports = () => {
           },
         },
       },
-      required: ["steps"],
+      required: ["steps", "language"],
     },
   };
 };
