@@ -1,13 +1,24 @@
 const path = require("path");
 const express = require("express");
-const chatController = require("./controllers/chatController");
+
 const cookieParser = require("cookie-parser");
 const { default: rateLimit } = require("express-rate-limit");
 const cors = require("cors");
 require("dotenv").config();
 const errorHandler = require("./utils/errorHandler");
 const logError = require("./utils/logError");
+const { default: mongoose } = require("mongoose");
 // const helmet = require("helmet");
+const chatRoutes = require(path.join(__dirname, "routes", "chatRoutes.js"));
+
+// const mongoclient = require(path.join(__dirname, "database", "MongoDB.js"));
+
+mongoose.connect(
+  process.env.MONGODB_SECURE_URI.replace(
+    /<password>/,
+    process.env.MONGODB_PASSWORD
+  )
+);
 
 const port = process.env.PORT || 3000;
 
@@ -29,36 +40,13 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-// app.use(helmet());
-
 app.use(limiter);
 
 app.use(cors());
-
+// app.use(helmet());
 app.options("*", cors());
 
-let id = 0;
-
-app.get("/", (req, res) => {
-  id++;
-  res.cookie("id", `${id}`, {
-    maxAge: 60 * 60 * 24 * 30,
-    httpOnly: true,
-    secure: false,
-  });
-  res.status(200).render("index");
-});
-
-app.post(
-  "/",
-  chatController.userInput,
-  chatController.chat,
-  chatController.proccessFunctionCall,
-  chatController.chatResponse
-);
-
-app.post("/get_data", chatController.getConversations);
-
+app.use(chatRoutes);
 app.use(logError);
 app.use(errorHandler);
 

@@ -4,23 +4,22 @@ const youtubeController = require("./youtubeController");
 const _ = require("lodash");
 const functions = require("../functions/index");
 const catchAsync = require("../utils/catchAsync");
+const Message = require("../models/messageModel");
 
-const systemPrompt = `You are a happy assistant whose name is Chatty that puts a positive spin on everything. 
+const systemPrompt = `You are a happy assistant whose name is Tars that puts a positive spin on everything. 
 You are a good and helpful assistant. Make stept-by-step comprehensive roadmaps for users when needed. Use 
-lots of relevant emojis in your responses.`;
+lots of relevant emojis in your responses. You are as old as your knowledge.`;
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_EXSMART,
 });
-
-const conversations = {};
 
 // gets response from OpenAI GPT
 async function chat(messages) {
   try {
     return await openai.chat.completions.create({
       messages,
-      model: "gpt-3.5-turbo-16k-0613",
+      model: "gpt-3.5-turbo-0613",
       temperature: 0,
       frequency_penalty: 0,
       functions,
@@ -30,6 +29,11 @@ async function chat(messages) {
     throw new Error("Something went wrong!");
   }
 }
+
+exports.tars = catchAsync(async (req, res, next) => {
+  res.status(200);
+  res.render("index");
+});
 
 // checks if there is a user input and converts it into GPT message
 exports.userInput = catchAsync(async (req, res, next) => {
@@ -43,21 +47,32 @@ exports.userInput = catchAsync(async (req, res, next) => {
     });
   }
   const content = req.body.userInput;
-  console.log("checking user input...");
-  if (!conversations[id]) {
-    conversations[id] = [{ role: "system", content: systemPrompt }];
-    conversations[id].push({
-      role: "assistant",
-      content: "Hi! How can I help you today? ✨",
-    });
-  }
+  console.log("checking user payload...");
   if (!content) {
     res.status(400).json({
       message: "invalid request",
     });
   }
 
-  conversations[id].push({ role: "user", content });
+  const messagesFromDB = await Message.find({ user_id: id });
+  try {
+  } catch (err) {
+    console.log(err);
+  }
+  const messages = [];
+  messages.push({ role: "system", content: systemPrompt });
+  messages.push({
+    role: "assistant",
+    content: "Hi! How can I help you today? ✨",
+  });
+  messagesFromDB.forEach((response) => {
+    if (!response.choices[0].message.function_call.name) {
+      response.choices[0].message.function_call = undefined;
+    }
+    messages.push(response.choices[0].message);
+  });
+  messages.push({ role: "user", content });
+  req.body.messages = messages;
   next();
 });
 
@@ -66,14 +81,15 @@ exports.chat = catchAsync(async (req, res, next) => {
   const id = req.cookies.id;
 
   console.log("waiting for chat...");
-  const response = await chat(conversations[id]);
+  const response = await chat(req.body.messages);
   if (!response) {
     return res.status(500).json({
       message: "Something went wrong at generating response!",
     });
   }
-  conversations[id].push(response.choices[0].message);
-  req.message = _.cloneDeep(response.choices[0].message);
+  response.user_id = id;
+  await Message.create(response);
+  req.message = response.choices[0].message;
   next();
 });
 
@@ -119,7 +135,6 @@ exports.chatResponse = catchAsync(async (req, res, next) => {
   console.log("response sent succesfully");
 });
 
-// returns conversations as whole
 exports.getConversations = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
