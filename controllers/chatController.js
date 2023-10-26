@@ -134,12 +134,3 @@ exports.chatResponse = catchAsync(async (req, res, next) => {
   res.status(200).json(req.message);
   console.log("response sent succesfully");
 });
-
-exports.getConversations = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    status: "success",
-    data: {
-      conversations,
-    },
-  });
-});

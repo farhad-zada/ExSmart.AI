@@ -16,6 +16,4 @@ router
     chatController.chatResponse
   );
 
-router.post("/get_data", chatController.getConversations);
-
 module.exports = router;
