@@ -19,6 +19,8 @@
     "express-rate-limit": "^7.1.0",
     "helmet": "^7.0.0",
     "lodash": "^4.17.21",
+    "mongoose": "^7.6.3",
+    "mysql": "^2.18.1",
     "openai": "^4.11.0",
     "pug": "^3.0.2",
     "xss-clean": "^0.1.4"
